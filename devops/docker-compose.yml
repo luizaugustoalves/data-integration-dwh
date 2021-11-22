@@ -1,0 +1,80 @@
+version: "3.7"
+services:
+  database:
+    image: postgis/postgis:12-3.0
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5400:5432
+    volumes:
+      - database:/var/lib/postgresql/data
+      - ../data:/docker-entrypoint-initdb.d:ro
+    networks:
+      - proxynet
+      
+  dwh:
+    image: postgis/postgis:12-3.0
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dwh
+    ports:
+      - 3300:5432
+    volumes:
+      - dwh:/var/lib/postgresql/data
+      - ../dwh:/docker-entrypoint-initdb.d:ro
+    networks:
+      - proxynet
+
+  pdi:
+    build:
+      context: ./data-integration    
+    command: runj job_challenge_civi.kjb -param:base_path=/jobs/ -param:dwh_db_url=dwh -param:database_db_url=database -param:database_db_port=5432 -param:dwh_db_port=5432 -param:users_json_path=/data/
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 2G
+    container_name: pdi
+    depends_on:
+      - database
+      - dwh 
+    volumes:
+      - ../jobs:/jobs
+      - "/etc/localtime:/etc/localtime:ro"
+      - ../data:/data
+    networks:
+      - proxynet
+
+networks:
+  proxynet:
+    name: custom_network
+
+
+      
+  # pdi:
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '2.00'
+  #         memory: 2G
+  #   container_name: pdi
+  #   build:
+  #     context: ./pdi_image
+  #   depends_on:
+  #     - database
+  #     - dwh 
+  #   environment:
+  #     REPOSITORY: ktrs
+  #   ports:
+  #    - 8088:8088
+  #   volumes:
+  #     - ../etl:/home
+  #     - "/etc/localtime:/etc/localtime:ro"   
+  #   command: command
+
+
+volumes:
+  database:
+  dwh:
