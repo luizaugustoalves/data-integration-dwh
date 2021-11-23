@@ -51,30 +51,6 @@ networks:
   proxynet:
     name: custom_network
 
-
-      
-  # pdi:
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         cpus: '2.00'
-  #         memory: 2G
-  #   container_name: pdi
-  #   build:
-  #     context: ./pdi_image
-  #   depends_on:
-  #     - database
-  #     - dwh 
-  #   environment:
-  #     REPOSITORY: ktrs
-  #   ports:
-  #    - 8088:8088
-  #   volumes:
-  #     - ../etl:/home
-  #     - "/etc/localtime:/etc/localtime:ro"   
-  #   command: command
-
-
 volumes:
   database:
   dwh:
