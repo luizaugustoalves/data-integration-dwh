@@ -7,7 +7,7 @@ Example of how a structure of a dimensional data warehouse works using the star 
 
 Use command below to run the JOB and transformations:
 ```shell
-> make up
+> make run
 ```
 
 ---
