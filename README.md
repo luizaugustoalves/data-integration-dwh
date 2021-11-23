@@ -28,7 +28,7 @@ To see all steps of the transformations:
 ---
 
 ### Star schema
-![Alt text](dwh/dwh_star_schema.png?raw=true "Star schema model")  
+![dwh_star_schema](https://user-images.githubusercontent.com/94723103/143041766-4287cf34-da4c-450c-bec9-be4fd12c3d03.png)
 In this modeling, the center of the star is a `fact_event_user` fact table and three associated dimension tables: `dim_events_type`, `dim_regions` and `dim_users`.  
 
 ---  
