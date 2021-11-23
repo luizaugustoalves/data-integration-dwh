@@ -5,14 +5,9 @@ Example of how a structure of a dimensional data warehouse works using the star 
 ---
 ### Quick-start
 
-Use command below to run the JOB and ETL's:
+Use command below to run the JOB and transformations:
 ```shell
 > make up
-```
-
-To see all steps of the transformations:
-```shell
-> make logs_pdi 
 ```
 
 ---
