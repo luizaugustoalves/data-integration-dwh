@@ -461,10 +461,10 @@
   </info>
   <notepads>
     <notepad>
-      <note>Load dimension dim_users</note>
+      <note>Load to dim_users table</note>
       <xloc>48</xloc>
       <yloc>32</yloc>
-      <width>152</width>
+      <width>136</width>
       <heigth>26</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -482,10 +482,10 @@
       <drawshadow>Y</drawshadow>
     </notepad>
     <notepad>
-      <note>Load dimension dim_markers</note>
+      <note>Load to dim_markers table</note>
       <xloc>48</xloc>
       <yloc>224</yloc>
-      <width>167</width>
+      <width>151</width>
       <heigth>26</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -503,10 +503,10 @@
       <drawshadow>Y</drawshadow>
     </notepad>
     <notepad>
-      <note>Load dimension dim_regions</note>
+      <note>Load to dim_regions table</note>
       <xloc>48</xloc>
       <yloc>400</yloc>
-      <width>164</width>
+      <width>148</width>
       <heigth>26</heigth>
       <fontname>Segoe UI</fontname>
       <fontsize>9</fontsize>
@@ -1577,15 +1577,12 @@
     <fields>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>latitude</name>
-        <rename/>
       </field>
       <field>
         <name>longitude</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
