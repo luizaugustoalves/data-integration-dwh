@@ -4,13 +4,21 @@
 Example of how a structure of a dimensional data warehouse works using the star schema.
 
 ---
+### Topics
+
+- [Quick-start](#quick-start)
+- [Structure](#structure)
+- [Star schema](#star-schema)
+- [Reports](#reports)
+---
+
+---
 ### Quick-start
 
 Use command below to run the JOB and transformations:
 ```shell
 > make run
 ```
-
 ---
 ### Structure
 ```text
