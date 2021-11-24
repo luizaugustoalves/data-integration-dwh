@@ -9,10 +9,10 @@ Example of how a structure of a dimensional data warehouse works using the star 
 - [Quick-start](#quick-start)
 - [Structure](#structure)
 - [Star schema](#star-schema)
+- [Answers](#answers)
 - [Reports](#reports)
 ---
 
----
 ### Quick-start
 
 Use command below to run the JOB and transformations:
@@ -48,6 +48,44 @@ Using the Pentaho Data Integration (PDI) component of the Pentaho suite.
 
 ---
 
+### Answers
+#### How many users are not in any region?  
+```sql
+SELECT 
+  COUNT(1) QUANTITY 
+FROM FACT_EVENT_USER
+LEFT JOIN DIM_REGIONS ON DIM_REGIONS.ID = FACT_EVENT_USER.DIM_REGIONS_ID 
+LEFT JOIN DIM_USERS ON DIM_USERS.ID = FACT_EVENT_USER.DIM_USERS_ID 
+WHERE FACT_EVENT_USER.DIM_REGIONS_ID IS NULL;
+```
+
+#### How many markers does each region have?  
+```sql
+SELECT 
+  DIM_REGIONS."NAME",
+  COUNT(1) QUANTITY
+FROM DIM_MARKERS, DIM_REGIONS
+# Filters the regions that have markers within their area, using the ST_INTERSECTS() function.
+# Unlike ST_CONTAINS(), the function ST_INTERSECTS() also considers the markers that are on the edge of the polygon.
+WHERE ST_INTERSECTS(ST_SETSRID(DIM_MARKERS.POINT::GEOMETRY, 4326), ST_SETSRID(DIM_REGIONS."LOCATION"::GEOMETRY, 4326)) 
+GROUP BY DIM_REGIONS."NAME"
+ORDER BY 2 DESC; 
+```
+
+#### What are the top N regions with the most users?  
+```sql
+SELECT 
+  DIM_REGIONS."NAME",
+  COUNT(DISTINCT DIM_USERS) QUANTITY
+FROM FACT_EVENT_USER
+JOIN DIM_REGIONS ON DIM_REGIONS.ID = FACT_EVENT_USER.DIM_REGIONS_ID 
+JOIN DIM_USERS ON DIM_USERS.ID = FACT_EVENT_USER.DIM_USERS_ID 
+GROUP BY DIM_REGIONS.ID
+ORDER BY 2 DESC
+LIMIT 7;
+```
+---
+
 ### Reports
 A report was developed in Power BI for data visualization.  
 #### Prerequisite  
@@ -67,40 +105,3 @@ postgres
 ```
 
 It is also possible to view the reports through the file `/reports/reports.pdf` ([here](report/reports.pdf))
-
-Or we may also have similar results with the queries below:  
-```sql
-# Users who are not in any region
-SELECT 
-  COUNT(1) QUANTITY 
-FROM FACT_EVENT_USER
-LEFT JOIN DIM_REGIONS ON DIM_REGIONS.ID = FACT_EVENT_USER.DIM_REGIONS_ID 
-LEFT JOIN DIM_USERS ON DIM_USERS.ID = FACT_EVENT_USER.DIM_USERS_ID 
-WHERE FACT_EVENT_USER.DIM_REGIONS_ID IS NULL;
-```
-
-```sql
-# Number of markers in each region
-SELECT 
-  DIM_REGIONS."NAME",
-  COUNT(1) QUANTITY
-FROM DIM_MARKERS, DIM_REGIONS
-# Filters the regions that have markers within their area, using the ST_INTERSECTS() function.
-# Unlike ST_CONTAINS(), the function ST_INTERSECTS() also considers the markers that are on the edge of the polygon.
-WHERE ST_INTERSECTS(ST_SETSRID(DIM_MARKERS.POINT::GEOMETRY, 4326), ST_SETSRID(DIM_REGIONS."LOCATION"::GEOMETRY, 4326)) 
-GROUP BY DIM_REGIONS."NAME"
-ORDER BY 2 DESC; 
-```
-
-```sql
-# Regions with the highest number of users
-SELECT 
-  DIM_REGIONS."NAME",
-  COUNT(DISTINCT DIM_USERS) QUANTITY
-FROM FACT_EVENT_USER
-JOIN DIM_REGIONS ON DIM_REGIONS.ID = FACT_EVENT_USER.DIM_REGIONS_ID 
-JOIN DIM_USERS ON DIM_USERS.ID = FACT_EVENT_USER.DIM_USERS_ID 
-GROUP BY DIM_REGIONS.ID
-ORDER BY 2 DESC
-LIMIT 7;
-```
