@@ -29,6 +29,5 @@ bash_pdi:
 		exec pdi bash		
 
 docker_push:
-    cd ./devops/data-integration
-	docker build -t luizaugustobr/pentaho-pdi:$(image_tag) -t luizaugustobr/pentaho-pdi:latest .
+	docker build -t luizaugustobr/pentaho-pdi:$(image_tag) -t luizaugustobr/pentaho-pdi:latest ./devops/data-integration
 	docker push luizaugustobr/pentaho-pdi --all-tags
