@@ -1,3 +1,4 @@
+[![Docker push](https://github.com/luizaugustoalves/data-integration-dwh/actions/workflows/docker-push.yml/badge.svg)](https://github.com/luizaugustoalves/data-integration-dwh/actions/workflows/docker-push.yml)
 # Data integration for data warehouse
 
 Example of how a structure of a dimensional data warehouse works using the star schema.
