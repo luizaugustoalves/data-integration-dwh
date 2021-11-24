@@ -28,8 +28,7 @@ services:
       - proxynet
 
   pdi:
-    build:
-      context: ./data-integration    
+    image: luizaugustobr/pentaho-pdi:1.0
     command: runj job_challenge_civi.kjb -param:base_path=/jobs/ -param:dwh_db_url=dwh -param:database_db_url=database -param:database_db_port=5432 -param:dwh_db_port=5432 -param:users_json_path=/data/
     deploy:
       resources:
